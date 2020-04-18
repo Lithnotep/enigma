@@ -21,4 +21,16 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, @enigma.date
     assert_equal expected2, @enigma.char_set
   end
+
+  def test_shift_create_and_shift_variables
+    assert_nil @enigma.ashift["a"]
+    assert_nil @enigma.bshift["b"]
+    assert_nil @enigma.cshift["z"]
+    assert_nil @enigma.dshift["m"]
+    assert_instance_of Hash, @enigma.ashift
+    assert_instance_of Hash, @enigma.bshift
+    assert_instance_of Hash, @enigma.cshift
+    assert_instance_of Hash, @enigma.dshift
+  end
+
 end
