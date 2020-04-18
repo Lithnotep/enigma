@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/enigma'
+require 'mocha/minitest'
 require 'pry'
 
 class EnigmaTest < Minitest::Test
@@ -14,6 +15,8 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_it_has_attributes
-    assert_equal "18042020", @enigma.date
+    expected = DateTime.now.strftime("%d%m%Y")
+    expected.slice!(4..5)
+    assert_equal expected, @enigma.date
   end
 end
