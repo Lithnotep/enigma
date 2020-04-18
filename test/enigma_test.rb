@@ -17,6 +17,8 @@ class EnigmaTest < Minitest::Test
   def test_it_has_attributes
     expected = DateTime.now.strftime("%d%m%Y")
     expected.slice!(4..5)
+    expected2 = ("a".."z").to_a << " "
     assert_equal expected, @enigma.date
+    assert_equal expected2, @enigma.char_set
   end
 end

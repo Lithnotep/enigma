@@ -2,9 +2,10 @@ require 'pry'
 require 'date'
 
 class Enigma
-  attr_reader :date
+  attr_reader :date, :char_set
 
   def initialize
+    @char_set = ("a".."z").to_a << " "
     @date = make_date
   end
 
