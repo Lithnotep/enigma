@@ -64,5 +64,13 @@ class EncryptTest < Minitest::Test
     assert_equal "e", @encrypt.dshift["a"]
   end
 
+  def test_message_prep
+    assert_equal [["H", "e", "l", "l"], ["o", " ", "w", "o"], ["r", "l", "d"]], @encrypt.message_prep("Hello world")
+  end
+
+  def test_user_input
+    Encrypt.stubs(:gets).returns("Hello world\n")
+    # assert_equal "hello world", @encrypt.user_input
+  end
 
 end
