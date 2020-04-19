@@ -64,7 +64,7 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_full_shift_assign
-    @enigma.test_full_shift_assign([1, 2, 3, 4])
+    @enigma.full_shift_assign([1, 2, 3, 4])
     assert_equal "b", @enigma.ashift["a"]
     assert_equal "c", @enigma.bshift["a"]
     assert_equal "d", @enigma.cshift["a"]
