@@ -1,3 +1,4 @@
+require 'matrix'
 require 'pry'
 require 'date'
 
@@ -47,6 +48,11 @@ class Enigma
     key_array << key_chars.slice(2..3).join.to_i
     key_array << key_chars.slice(3..4).join.to_i
     key_array
+  end
+
+  def offset_combine
+    combine = [@offsets, @key]
+    combine.transpose.map(&:sum)
   end
 
 
