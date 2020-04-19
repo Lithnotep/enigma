@@ -43,4 +43,7 @@ class EnigmaTest < Minitest::Test
     assert_instance_of Integer, @enigma.offset_combine[1]
   end
 
+  def shift_assign
+  end
+
 end

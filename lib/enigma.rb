@@ -58,6 +58,7 @@ class Enigma
 
 
   def shift_assign
+
   end
 
 end
