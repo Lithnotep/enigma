@@ -1,8 +1,7 @@
-require 'minitest/autorun'
-require 'minitest/pride'
+require './test/test_helper'
 require './lib/enigma'
-require 'mocha/minitest'
-require 'pry'
+
+
 
 class EnigmaTest < Minitest::Test
 
@@ -19,7 +18,6 @@ class EnigmaTest < Minitest::Test
     expected2 = ("a".."z").to_a << " "
     assert_equal [6, 4, 0, 0], @enigma.offsets
     assert_equal expected2, @enigma.char_set
-    binding.pry
   end
 
   def test_shift_create_and_shift_variables
@@ -34,8 +32,15 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_key_and_make_key
-    assert_equal 5, @enigma.key
+    assert_equal 4, @enigma.key.length
+    assert_equal 4, @enigma.make_key.length
   end
+
+  def test_key_offset_combine
+    @enigma.stubs(:current_date).returns("180420")
+    @enigma.stubs(:rand_key).returns([0, 1, 2, 4, 5])
+  end
+
 
 
 

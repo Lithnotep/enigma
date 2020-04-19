@@ -16,11 +16,10 @@ class Enigma
 
 
   def make_offsets
-    current_date = DateTime.now.strftime("%d%m%Y")
-    current_date.slice!(4..5)
+    current_date = DateTime.now.strftime("%d%m%y")
     date_to_offset = current_date.to_i * current_date.to_i
     offset_alter = date_to_offset.to_s.slice(-4..-1)
-    offset = offset_alter.split(//).map do |num|
+    offset = offset_alter.chars.map do |num|
       num.to_i
     end
     offset
@@ -36,10 +35,21 @@ class Enigma
 
   def make_key
     rand_key = []
+    key_array = []
     5.times do
       rand_key << rand(0..9)
     end
+    key_chars = rand_key.map do |num|
+      num.to_s
+    end
+    key_array << key_chars.slice(0..1).join.to_i
+    key_array << key_chars.slice(1..2).join.to_i
+    key_array << key_chars.slice(2..3).join.to_i
+    key_array << key_chars.slice(3..4).join.to_i
+    key_array
   end
+
+
 
   def shift_assign
   end
