@@ -37,11 +37,10 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_key_offset_combine
-    @enigma.stubs(:current_date).returns("180420")
-    @enigma.stubs(:rand_key).returns([0, 1, 2, 4, 5])
+    @enigma.stubs(:combine).returns([24, 49, 93, 33], [6, 4, 0, 0])
+    assert_equal 4, @enigma.offset_combine.length
+    assert_instance_of Array, @enigma.offset_combine
+    assert_instance_of Integer, @enigma.offset_combine[1]
   end
-
-
-
 
 end
