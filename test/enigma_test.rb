@@ -33,4 +33,10 @@ class EnigmaTest < Minitest::Test
     assert_instance_of Hash, @enigma.dshift
   end
 
+  def test_key_and_make_key
+    assert_equal 5, @enigma.key
+  end
+
+
+
 end

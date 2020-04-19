@@ -2,11 +2,12 @@ require 'pry'
 require 'date'
 
 class Enigma
-  attr_reader :date, :char_set, :ashift, :bshift, :cshift, :dshift
+  attr_reader :date, :char_set, :ashift, :bshift, :cshift, :dshift, :key
 
   def initialize
     @char_set = ("a".."z").to_a << " "
     @date = make_date
+    @key = make_key
     @ashift = shift_create
     @bshift = shift_create
     @cshift = shift_create
@@ -28,9 +29,18 @@ class Enigma
     char_hash
   end
 
-
-
+  def make_key
+    rand_key = []
+    5.times do
+      rand_key << rand(0..9)
+    end
+  end
 
 end
+
+
+
+
+
 
 # alphabet set ("a".."z").to_a << " "
