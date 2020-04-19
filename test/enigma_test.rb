@@ -43,4 +43,31 @@ class EnigmaTest < Minitest::Test
     assert_instance_of Integer, @enigma.offset_combine[1]
   end
 
+  def test_ashift_assign
+    @enigma.ashift_assign([1, 2, 3, 4])
+    assert_equal "b", @enigma.ashift["a"]
+  end
+
+  def test_bshift_assign
+    @enigma.bshift_assign([1, 2, 3, 4])
+    assert_equal "c", @enigma.bshift["a"]
+  end
+
+  def test_cshift_assign
+    @enigma.cshift_assign([1, 2, 3, 4])
+    assert_equal "d", @enigma.cshift["a"]
+  end
+
+  def test_dshift_assign
+    @enigma.dshift_assign([1, 2, 3, 4])
+    assert_equal "e", @enigma.dshift["a"]
+  end
+
+  def test_full_shift_assign
+    @enigma.full_shift_assign([1, 2, 3, 4])
+    assert_equal "b", @enigma.ashift["a"]
+    assert_equal "c", @enigma.bshift["a"]
+    assert_equal "d", @enigma.cshift["a"]
+    assert_equal "e", @enigma.dshift["a"]
+  end
 end
