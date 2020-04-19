@@ -2,11 +2,11 @@ require 'pry'
 require 'date'
 
 class Enigma
-  attr_reader :date, :char_set, :ashift, :bshift, :cshift, :dshift, :key
+  attr_reader :offsets, :char_set, :ashift, :bshift, :cshift, :dshift, :key
 
   def initialize
     @char_set = ("a".."z").to_a << " "
-    @date = make_date
+    @offsets = make_offsets
     @key = make_key
     @ashift = shift_create
     @bshift = shift_create
@@ -15,10 +15,15 @@ class Enigma
   end
 
 
-  def make_date
+  def make_offsets
     current_date = DateTime.now.strftime("%d%m%Y")
     current_date.slice!(4..5)
-    current_date
+    date_to_offset = current_date.to_i * current_date.to_i
+    offset_alter = date_to_offset.to_s.slice(-4..-1)
+    offset = offset_alter.split(//).map do |num|
+      num.to_i
+    end
+    offset
   end
 
   def shift_create
@@ -34,6 +39,9 @@ class Enigma
     5.times do
       rand_key << rand(0..9)
     end
+  end
+
+  def shift_assign
   end
 
 end

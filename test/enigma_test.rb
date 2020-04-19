@@ -15,11 +15,11 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_it_has_attributes
-    expected = DateTime.now.strftime("%d%m%Y")
-    expected.slice!(4..5)
+    @enigma.stubs(:current_date).returns("180420")
     expected2 = ("a".."z").to_a << " "
-    assert_equal expected, @enigma.date
+    assert_equal [6, 4, 0, 0], @enigma.offsets
     assert_equal expected2, @enigma.char_set
+    binding.pry
   end
 
   def test_shift_create_and_shift_variables
