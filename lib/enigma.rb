@@ -55,12 +55,33 @@ class Enigma
     combine.transpose.map(&:sum)
   end
 
-
-
-  def shift_assign
-
+  def ashift_assign(code_shift)
+    paired_chars_a = @char_set.zip(@char_set.rotate(code_shift[0]).cycle)
+    paired_chars_a.each do |char|
+      @ashift[char[0]] = char[1]
+    end
   end
 
+  def bshift_assign(code_shift)
+    paired_chars_b = @char_set.zip(@char_set.rotate(code_shift[1]).cycle)
+    paired_chars_b.each do |char|
+      @bshift[char[0]] = char[1]
+    end
+  end
+
+  def cshift_assign(code_shift)
+    paired_chars_c = @char_set.zip(@char_set.rotate(code_shift[2]).cycle)
+    paired_chars_c.each do |char|
+      @cshift[char[0]] = char[1]
+    end
+  end
+
+  def dshift_assign(code_shift)
+    paired_chars_d = @char_set.zip(@char_set.rotate(code_shift[3]).cycle)
+    paired_chars_d.each do |char|
+      @dshift[char[0]] = char[1]
+    end
+  end
 end
 
 
