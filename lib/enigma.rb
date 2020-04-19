@@ -62,8 +62,6 @@ class Enigma
     dshift_assign(code_shift)
   end
 
-
-
   def ashift_assign(code_shift)
     paired_chars_a = @char_set.zip(@char_set.rotate(code_shift[0]).cycle)
     paired_chars_a.each do |char|
