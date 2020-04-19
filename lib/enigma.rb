@@ -15,7 +15,6 @@ class Enigma
     @dshift = shift_create
   end
 
-
   def make_offsets
     current_date = DateTime.now.strftime("%d%m%y")
     date_to_offset = current_date.to_i * current_date.to_i
