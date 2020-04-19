@@ -12,11 +12,11 @@ class EnigmaTest < Minitest::Test
   def test_it_exists
     assert_instance_of Enigma, @enigma
   end
-
+# 180420
   def test_it_has_attributes
-    @enigma.stubs(:current_date).returns("180420")
+    #@enigma.stubs(:current_date).returns("111111")
     expected2 = ("a".."z").to_a << " "
-    assert_equal [6, 4, 0, 0], @enigma.offsets
+    assert_equal 4, @enigma.offsets.length
     assert_equal expected2, @enigma.char_set
   end
 
