@@ -70,4 +70,13 @@ class EnigmaTest < Minitest::Test
     assert_equal "d", @enigma.cshift["a"]
     assert_equal "e", @enigma.dshift["a"]
   end
+
+  def test_message_prep
+    assert_equal [["H", "e", "l", "l"], ["o", " ", "w", "o"], ["r", "l", "d"]], @enigma.message_prep("Hello world")
+  end
+
+  def test_encryption
+    @enigma.full_shift_assign([1, 1, 1, 1])
+    assert_equal ["i", "f", "m", "m", "p"] , @enigma.encryption([["h", "e", "l", "l"], ["o"]])
+  end
 end

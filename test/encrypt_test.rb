@@ -69,8 +69,14 @@ class EncryptTest < Minitest::Test
   end
 
   def test_user_input
+    skip
     Encrypt.stubs(:gets).returns("Hello world\n")
     # assert_equal "hello world", @encrypt.user_input
+  end
+
+  def test_encryption
+    @encrypt.full_shift_assign([1, 1, 1, 1])
+    assert_equal ["i", "f", "m", "m", "p"] , @encrypt.encryption([["h", "e", "l", "l"], ["o"]])
   end
 
 end
