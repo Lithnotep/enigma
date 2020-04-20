@@ -48,36 +48,19 @@ class Enigma
     message_feeder
   end
 
-  def encrypt_decrypt_helper(encrypt_decrypt)
-    if encrypt_decrypt == encrypt
-      @shift.ashift
-    end
-
+  def cryption_feeder
   end
 
   def encryption(message)
     complete_encrypt = []
     message.each do |group|
-      if group.length == 4
-        complete_encrypt << @shift.ashift[group[0]]
-        complete_encrypt << @shift.bshift[group[1]]
-        complete_encrypt << @shift.cshift[group[2]]
-        complete_encrypt << @shift.dshift[group[3]]
-      end
-      if group.length == 3
-        complete_encrypt << @shift.ashift[group[0]]
-        complete_encrypt << @shift.bshift[group[1]]
-        complete_encrypt << @shift.cshift[group[2]]
-      end
-      if group.length == 2
-        complete_encrypt << @shift.ashift[group[0]]
-        complete_encrypt << @shift.bshift[group[1]]
-      end
-      if group.length == 1
-        complete_encrypt << @shift.ashift[group[0]]
-      end
+        iter = 0
+        [@shift.ashift, @shift.bshift, @shift.cshift, @shift.dshift].each do |hash|
+          complete_encrypt << hash[group[iter]]
+          iter += 1
+        end
     end
-    complete_encrypt
+    complete_encrypt.compact
   end
 
   def message_clean_up(message)
