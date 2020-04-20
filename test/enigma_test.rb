@@ -1,7 +1,6 @@
 require './test/test_helper'
 require './lib/enigma'
-
-
+require 'date'
 
 class EnigmaTest < Minitest::Test
 
@@ -16,8 +15,9 @@ class EnigmaTest < Minitest::Test
   def test_it_has_attributes
     #@enigma.stubs(:current_date).returns("111111")
     expected2 = ("a".."z").to_a << " "
-    assert_equal 4, @enigma.offsets.length
+    # assert_equal 4, @enigma.offsets.length
     assert_equal expected2, @enigma.char_set
+    assert_equal DateTime.now.strftime("%d%m%y"), @enigma.date
   end
 
   def test_shift_create_and_shift_variables
@@ -32,15 +32,15 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_key_and_make_key
-    assert_equal 4, @enigma.key.length
-    assert_equal 4, @enigma.make_key.length
+    assert_equal 5, @enigma.key.length
+  end
+
+  def test_prepare_key
+    assert_equal [11, 11, 11, 11], @enigma.prepare_key("11111")
   end
 
   def test_key_offset_combine
-    @enigma.stubs(:combine).returns([24, 49, 93, 33], [6, 4, 0, 0])
-    assert_equal 4, @enigma.offset_combine.length
-    assert_instance_of Array, @enigma.offset_combine
-    assert_instance_of Integer, @enigma.offset_combine[1]
+    assert_equal [3, 27, 73, 20], @enigma.offset_combine(@enigma.make_offsets("040895"), @enigma.prepare_key("02715"))
   end
 
   def test_ashift_assign
@@ -78,5 +78,20 @@ class EnigmaTest < Minitest::Test
   def test_encryption
     @enigma.full_shift_assign([1, 1, 1, 1])
     assert_equal ["i", "f", "m", "m", "p"] , @enigma.encryption([["h", "e", "l", "l"], ["o"]])
+    assert_equal ["i", "f", "m", "m", "p", "p"] , @enigma.encryption([["h", "e", "l", "l"], ["o", "o"]])
+    assert_equal ["i", "f", "m", "m", "p", "a", "x", "p", "s", "m", "e"] , @enigma.encryption([["h", "e", "l", "l"], ["o", " ", "w", "o"], ["r", "l", "d"]])
+  end
+
+  def test_encrypt
+    expected = {
+    encryption: "keder ohulw",
+    key: "02715",
+    date: "040895"
+    }
+    assert_equal expected ,@enigma.encrypt("hello world", "02715", "040895")
+  end
+
+  def test_message_clean_up
+    assert_equal "keder ohulw", @enigma.message_clean_up(["k", "e", "d", "e", "r", " ", "o", "h", "u", "l", "w"])
   end
 end

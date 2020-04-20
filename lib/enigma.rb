@@ -3,11 +3,12 @@ require 'pry'
 require 'date'
 
 class Enigma
-  attr_reader :offsets, :char_set, :ashift, :bshift, :cshift, :dshift, :key
+  attr_reader :offsets, :char_set, :ashift, :bshift, :cshift, :dshift, :key, :date
 
   def initialize
     @char_set = ("a".."z").to_a << " "
-    @offsets = make_offsets
+    @date = DateTime.now.strftime("%d%m%y")
+    #@offsets = make_offsets
     @key = make_key
     @ashift = shift_create
     @bshift = shift_create
@@ -15,9 +16,19 @@ class Enigma
     @dshift = shift_create
   end
 
-  def make_offsets
-    current_date = DateTime.now.strftime("%d%m%y")
-    date_to_offset = current_date.to_i * current_date.to_i
+  def encrypt(message, key, date = @date)
+    encrypt_hash = {}
+    encrypt_hash[:key] = key
+    encrypt_hash[:date] = date
+    code_shift = offset_combine(make_offsets(date), prepare_key(key))
+    full_shift_assign(code_shift)
+    split_encryption = encryption(message_prep(message))
+    encrypt_hash[:encryption] = message_clean_up(split_encryption)
+    encrypt_hash
+  end
+
+  def make_offsets(date = @date)
+    date_to_offset = date.to_i * date.to_i
     offset_alter = date_to_offset.to_s.slice(-4..-1)
     offset = offset_alter.chars.map do |num|
       num.to_i
@@ -35,13 +46,15 @@ class Enigma
 
   def make_key
     rand_key = []
-    key_array = []
     5.times do
       rand_key << rand(0..9)
     end
-    key_chars = rand_key.map do |num|
-      num.to_s
-    end
+    rand_key.join.to_s
+  end
+
+  def prepare_key(key)
+    key_array = []
+    key_chars = key.split(//)
     key_array << key_chars.slice(0..1).join.to_i
     key_array << key_chars.slice(1..2).join.to_i
     key_array << key_chars.slice(2..3).join.to_i
@@ -49,8 +62,8 @@ class Enigma
     key_array
   end
 
-  def offset_combine
-    combine = [@offsets, @key]
+  def offset_combine(offset, key)
+    combine = [offset, key]
     combine.transpose.map(&:sum)
   end
 
@@ -100,7 +113,7 @@ class Enigma
 
   def encryption(message)
     complete_encrypt = []
-    message_prep.each do |group|
+    message.each do |group|
       if group.length == 4
         complete_encrypt << @ashift[group[0]]
         complete_encrypt << @bshift[group[1]]
@@ -121,6 +134,10 @@ class Enigma
       end
     end
     complete_encrypt
+  end
+
+  def message_clean_up(message)
+    message.join
   end
 end
 
