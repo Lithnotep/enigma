@@ -8,24 +8,30 @@ class Enigma
   def initialize
     @char_set = ("a".."z").to_a << " "
     @date = DateTime.now.strftime("%d%m%y")
-    @offsets = make_offsets
-    @key = make_key
+    #@offsets = make_offsets
+    #@key = make_key
     @ashift = shift_create
     @bshift = shift_create
     @cshift = shift_create
     @dshift = shift_create
   end
 
-  def encrypt(encryption, key, date = @date)
+  def encrypt(message, key, date = @date)
+    encrypt_hash = {}
+    encrypt_hash[:key] = key
+    encrypt_hash[:date] = date
 
 
-    encryption(message)
+
+
+
+
+  #  encryption(message)
 
   end
 
-  def make_offsets
-    current_date = DateTime.now.strftime("%d%m%y")
-    date_to_offset = current_date.to_i * current_date.to_i
+  def make_offsets(date = @date)
+    date_to_offset = date.to_i * date.to_i
     offset_alter = date_to_offset.to_s.slice(-4..-1)
     offset = offset_alter.chars.map do |num|
       num.to_i
@@ -58,7 +64,7 @@ class Enigma
   end
 
   def offset_combine
-    combine = [@offsets, @key]
+    combine = [make_offsets, make_key]
     combine.transpose.map(&:sum)
   end
 
