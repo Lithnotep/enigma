@@ -12,16 +12,22 @@ class Shift
     @dshift = shift_create
   end
 
+  def shift_create
+    char_hash = Hash.new
+    @char_set.each do |char|
+      char_hash[char] = nil
+    end
+    char_hash
+  end
+
+  def ashift_assign(code_shift, shift)
+    paired_chars = @char_set.zip(@char_set.rotate(code_shift[0]).cycle)
+    paired_chars.each do |char|
+      shift[char[0]] = char[1]
+    end
+  end
 
 end
-
-# def shift_create
-#   char_hash = Hash.new
-#   @char_set.each do |char|
-#     char_hash[char] = nil
-#   end
-#   char_hash
-# end
 
 # def full_shift_assign(code_shift)
 #   ashift_assign(code_shift)
@@ -30,12 +36,12 @@ end
 #   dshift_assign(code_shift)
 # end
 #
-# def ashift_assign(code_shift)
-#   paired_chars_a = @char_set.zip(@char_set.rotate(code_shift[0]).cycle)
-#   paired_chars_a.each do |char|
-#     @ashift[char[0]] = char[1]
-#   end
-# end
+def ashift_assign(code_shift, shift)
+  paired_chars_a = @char_set.zip(@char_set.rotate(code_shift[0]).cycle)
+  paired_chars_a.each do |char|
+    shift[char[0]] = char[1]
+  end
+end
 #
 # def bshift_assign(code_shift)
 #   paired_chars_b = @char_set.zip(@char_set.rotate(code_shift[1]).cycle)

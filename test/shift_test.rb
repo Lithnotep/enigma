@@ -12,9 +12,9 @@ class ShiftTest < Minitest::Test
     assert_instance_of Shift, @shift
   end
 
-  def test_has_attributes
+  def test_has_attributes_and_shift_create
     expected2 = ("a".."z").to_a << " "
-    assert_equal expected2, @enigma.char_set
+    assert_equal expected2, @shift.char_set
     assert_nil @shift.ashift["a"]
     assert_nil @shift.bshift["b"]
     assert_nil @shift.cshift["z"]
@@ -24,4 +24,5 @@ class ShiftTest < Minitest::Test
     assert_instance_of Hash, @shift.cshift
     assert_instance_of Hash, @shift.dshift
   end
+
 end
