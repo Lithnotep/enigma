@@ -22,7 +22,8 @@ class Enigma
     encrypt_hash[:date] = date
     code_shift = offset_combine(make_offsets(date), prepare_key(key))
     full_shift_assign(code_shift)
-    encrypt_hash[:message] = encryption(message_prep(message))
+    split_encryption = encryption(message_prep(message))
+    encrypt_hash[:encryption] = message_clean_up(split_encryption)
     encrypt_hash
   end
 
@@ -133,6 +134,10 @@ class Enigma
       end
     end
     complete_encrypt
+  end
+
+  def message_clean_up(message)
+    message.join
   end
 end
 

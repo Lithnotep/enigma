@@ -93,4 +93,8 @@ class EnigmaTest < Minitest::Test
     assert_equal expected ,@enigma.encrypt("hello world", "02715", "040895")
   end
 
+  def test_message_clean_up
+    assert_equal "keder ohulw", @enigma.message_clean_up(["k", "e", "d", "e", "r", " ", "o", "h", "u", "l", "w"])
+  end
+
 end
