@@ -43,6 +43,4 @@ class ShiftTest < Minitest::Test
     assert_equal "d", @shift.cshift["a"]
     assert_equal "e", @shift.dshift["a"]
   end
-
-
 end
