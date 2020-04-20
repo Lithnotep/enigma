@@ -43,9 +43,9 @@ class Shift
   end
 
   def full_shift_assign(code_shift)
-    ashift_assign(code_shift, :a)
-    bshift_assign(code_shift, :b)
-    cshift_assign(code_shift, :c)
-    dshift_assign(code_shift, :d)
+    shift_assign(code_shift, :a)
+    shift_assign(code_shift, :b)
+    shift_assign(code_shift, :c)
+    shift_assign(code_shift, :d)
   end
 end

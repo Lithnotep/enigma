@@ -36,9 +36,13 @@ class ShiftTest < Minitest::Test
     assert_equal "e", @shift.dshift["a"]
   end
 
-  assert_equal "b", @shift.ashift["a"]
-  assert_equal "c", @shift.bshift["a"]
-  assert_equal "d", @shift.cshift["a"]
-  assert_equal "e", @shift.dshift["a"]
+  def test_full_shift_assign
+    @shift.full_shift_assign([1, 2, 3, 4])
+    assert_equal "b", @shift.ashift["a"]
+    assert_equal "c", @shift.bshift["a"]
+    assert_equal "d", @shift.cshift["a"]
+    assert_equal "e", @shift.dshift["a"]
+  end
+
 
 end
