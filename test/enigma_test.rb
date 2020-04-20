@@ -62,4 +62,17 @@ class EnigmaTest < Minitest::Test
   def test_message_clean_up
     assert_equal "keder ohulw", @enigma.message_clean_up(["k", "e", "d", "e", "r", " ", "o", "h", "u", "l", "w"])
   end
+
+  def test_encrypt_decrypt_helper
+    assert_equal @enigma.shift.ashift.invert, @enigma.encrypt_decrypt_helper(decrypt)
+    assert_equal @enigma.shift.ashift, @enigma.encrypt_decrypt_helper(encrypt)
+  end
+
+  def test_encryption_decrypt
+    skip
+    @enigma.shift.full_shift_assign([1, 1, 1, 1])
+    assert_equal ["h", "e", "l", "l", "o"] , @enigma.encryption([["i", "f", "m", "m"], ["p"]])
+    assert_equal ["h", "e", "l", "l", "o", "o"] , @enigma.encryption([["i", "f", "m", "m"], ["p", "p"]])
+    assert_equal ["i", "f", "m", "m", "p", "a", "x", "p", "s", "m", "e"] , @enigma.encryption([["i", "f", "m", "m"], ["p", "a", "x", "p"], ["s", "m", "e"]])
+  end
 end

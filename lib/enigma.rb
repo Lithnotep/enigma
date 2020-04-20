@@ -48,6 +48,13 @@ class Enigma
     message_feeder
   end
 
+  def encrypt_decrypt_helper(encrypt_decrypt)
+    if encrypt_decrypt == encrypt
+      @shift.ashift
+    end
+
+  end
+
   def encryption(message)
     complete_encrypt = []
     message.each do |group|
