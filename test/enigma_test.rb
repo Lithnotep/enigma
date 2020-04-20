@@ -13,8 +13,9 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_it_has_attributes
-
     expected2 = ("a".."z").to_a << " "
+    assert_instance_of Shift, @enigma.shift
+    assert_instance_of Key, @enigma.key
     assert_equal expected2, @enigma.char_set
     assert_equal DateTime.now.strftime("%d%m%y"), @enigma.date
   end
