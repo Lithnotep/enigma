@@ -1,3 +1,4 @@
+require './lib/key'
 require 'matrix'
 require 'pry'
 require 'date'
@@ -8,8 +9,7 @@ class Enigma
   def initialize
     @char_set = ("a".."z").to_a << " "
     @date = DateTime.now.strftime("%d%m%y")
-    #@offsets = make_offsets
-    @key = make_key
+    @key = Key.new
     @ashift = shift_create
     @bshift = shift_create
     @cshift = shift_create
@@ -20,7 +20,7 @@ class Enigma
     encrypt_hash = {}
     encrypt_hash[:key] = key
     encrypt_hash[:date] = date
-    code_shift = offset_combine(make_offsets(date), prepare_key(key))
+    code_shift = offset_combine(make_offsets(date), @key.prepare_key(key))
     full_shift_assign(code_shift)
     split_encryption = encryption(message_prep(message))
     encrypt_hash[:encryption] = message_clean_up(split_encryption)
@@ -42,24 +42,6 @@ class Enigma
       char_hash[char] = nil
     end
     char_hash
-  end
-
-  def make_key
-    rand_key = []
-    5.times do
-      rand_key << rand(0..9)
-    end
-    rand_key.join.to_s
-  end
-
-  def prepare_key(key)
-    key_array = []
-    key_chars = key.split(//)
-    key_array << key_chars.slice(0..1).join.to_i
-    key_array << key_chars.slice(1..2).join.to_i
-    key_array << key_chars.slice(2..3).join.to_i
-    key_array << key_chars.slice(3..4).join.to_i
-    key_array
   end
 
   def offset_combine(offset, key)
@@ -140,10 +122,3 @@ class Enigma
     message.join
   end
 end
-
-
-
-
-
-
-# alphabet set ("a".."z").to_a << " "

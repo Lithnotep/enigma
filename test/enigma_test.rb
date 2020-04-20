@@ -31,15 +31,15 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_key_and_make_key
-    assert_equal 5, @enigma.key.length
+    assert_equal 5, @enigma.key.current_key.length
   end
 
   def test_prepare_key
-    assert_equal [11, 11, 11, 11], @enigma.prepare_key("11111")
+    assert_equal [11, 11, 11, 11], @enigma.key.prepare_key("11111")
   end
 
   def test_key_offset_combine
-    assert_equal [3, 27, 73, 20], @enigma.offset_combine(@enigma.make_offsets("040895"), @enigma.prepare_key("02715"))
+    assert_equal [3, 27, 73, 20], @enigma.offset_combine(@enigma.make_offsets("040895"), @enigma.key.prepare_key("02715"))
   end
 
   def test_ashift_assign
