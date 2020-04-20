@@ -20,46 +20,32 @@ class Shift
     char_hash
   end
 
-  def ashift_assign(code_shift, shift)
-    paired_chars = @char_set.zip(@char_set.rotate(code_shift[0]).cycle)
+  def shift_assign(code_shift, shift)
+    shift_code = nil
+    current_shift = nil
+    if shift == :a
+      shift_code = code_shift[0]
+      current_shift = @ashift
+    elsif  shift == :b
+      shift_code = code_shift[1]
+      current_shift = @bshift
+    elsif shift == :c
+      shift_code = code_shift[2]
+      current_shift = @cshift
+    elsif shift == :d
+      shift_code = code_shift[3]
+      current_shift = @dshift
+    end
+    paired_chars = @char_set.zip(@char_set.rotate(shift_code).cycle)
     paired_chars.each do |char|
-      shift[char[0]] = char[1]
+      current_shift[char[0]] = char[1]
     end
   end
 
-end
-
-# def full_shift_assign(code_shift)
-#   ashift_assign(code_shift)
-#   bshift_assign(code_shift)
-#   cshift_assign(code_shift)
-#   dshift_assign(code_shift)
-# end
-#
-def ashift_assign(code_shift, shift)
-  paired_chars_a = @char_set.zip(@char_set.rotate(code_shift[0]).cycle)
-  paired_chars_a.each do |char|
-    shift[char[0]] = char[1]
+  def full_shift_assign(code_shift)
+    ashift_assign(code_shift, :a)
+    bshift_assign(code_shift, :b)
+    cshift_assign(code_shift, :c)
+    dshift_assign(code_shift, :d)
   end
 end
-#
-# def bshift_assign(code_shift)
-#   paired_chars_b = @char_set.zip(@char_set.rotate(code_shift[1]).cycle)
-#   paired_chars_b.each do |char|
-#     @bshift[char[0]] = char[1]
-#   end
-# end
-#
-# def cshift_assign(code_shift)
-#   paired_chars_c = @char_set.zip(@char_set.rotate(code_shift[2]).cycle)
-#   paired_chars_c.each do |char|
-#     @cshift[char[0]] = char[1]
-#   end
-# end
-#
-# def dshift_assign(code_shift)
-#   paired_chars_d = @char_set.zip(@char_set.rotate(code_shift[3]).cycle)
-#   paired_chars_d.each do |char|
-#     @dshift[char[0]] = char[1]
-#   end
-# end

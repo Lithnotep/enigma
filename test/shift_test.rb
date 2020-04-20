@@ -25,4 +25,20 @@ class ShiftTest < Minitest::Test
     assert_instance_of Hash, @shift.dshift
   end
 
+  def test_shift_assign
+    @shift.shift_assign([1, 2, 3, 4], :a)
+    @shift.shift_assign([1, 2, 3, 4], :b)
+    @shift.shift_assign([1, 2, 3, 4], :c)
+    @shift.shift_assign([1, 2, 3, 4], :d)
+    assert_equal "b", @shift.ashift["a"]
+    assert_equal "c", @shift.bshift["a"]
+    assert_equal "d", @shift.cshift["a"]
+    assert_equal "e", @shift.dshift["a"]
+  end
+
+  assert_equal "b", @shift.ashift["a"]
+  assert_equal "c", @shift.bshift["a"]
+  assert_equal "d", @shift.cshift["a"]
+  assert_equal "e", @shift.dshift["a"]
+
 end
