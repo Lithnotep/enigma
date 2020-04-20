@@ -1,10 +1,10 @@
 require 'date'
 require 'pry'
 class Key
-  attr_reader :key
+  attr_reader :current_key
 
   def initialize
-    @key = make_key
+    @current_key = make_key
   end
 
   def make_key

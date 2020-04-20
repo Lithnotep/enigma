@@ -13,7 +13,7 @@ class KeyTest < Minitest::Test
   end
 
   def test_key_and_make_key
-    assert_equal 5, @key.key.length
+    assert_equal 5, @key.current_key.length
   end
 
   def test_prepare_key
