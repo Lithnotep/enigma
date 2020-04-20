@@ -16,7 +16,7 @@ class KeyTest < Minitest::Test
     assert_equal 5, @key.key.length
   end
 
-  # def test_prepare_key
-  #   assert_equal [11, 11, 11, 11], @key.prepare_key("11111")
-  # end
+  def test_prepare_key
+    assert_equal [11, 11, 11, 11], @key.prepare_key("11111")
+  end
 end
