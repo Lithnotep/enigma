@@ -1,9 +1,27 @@
 require './test/test_helper'
-require './lib/key'
+require './lib/shift'
 require 'date'
 
-class KeyTest < Minitest::Test
+class ShiftTest < Minitest::Test
 
   def setup
-    @key = Key.new
+    @shift = Shift.new
   end
+
+  def test_it_exists
+    assert_instance_of Shift, @shift
+  end
+
+  def test_has_attributes
+    expected2 = ("a".."z").to_a << " "
+    assert_equal expected2, @enigma.char_set
+    assert_nil @shift.ashift["a"]
+    assert_nil @shift.bshift["b"]
+    assert_nil @shift.cshift["z"]
+    assert_nil @shift.dshift["m"]
+    assert_instance_of Hash, @shift.ashift
+    assert_instance_of Hash, @shift.bshift
+    assert_instance_of Hash, @shift.cshift
+    assert_instance_of Hash, @shift.dshift
+  end
+end
