@@ -1,5 +1,6 @@
 require './test/test_helper'
 require './lib/enigma'
+require 'date'
 
 
 
@@ -18,6 +19,7 @@ class EnigmaTest < Minitest::Test
     expected2 = ("a".."z").to_a << " "
     assert_equal 4, @enigma.offsets.length
     assert_equal expected2, @enigma.char_set
+    assert_equal DateTime.now.strftime("%d%m%y"), @enigma.date
   end
 
   def test_shift_create_and_shift_variables
@@ -78,5 +80,16 @@ class EnigmaTest < Minitest::Test
   def test_encryption
     @enigma.full_shift_assign([1, 1, 1, 1])
     assert_equal ["i", "f", "m", "m", "p"] , @enigma.encryption([["h", "e", "l", "l"], ["o"]])
+    assert_equal ["i", "f", "m", "m", "p", "p"] , @enigma.encryption([["h", "e", "l", "l"], ["o", "o"]])
+    assert_equal ["i", "f", "m", "m", "p", "a", "x", "p", "s", "m", "e"] , @enigma.encryption([["h", "e", "l", "l"], ["o", " ", "w", "o"], ["r", "l", "d"]])
+  end
+
+  def test_encrypt
+    expected = {
+    encryption: "keder ohulw",
+    key: "02715",
+    date: "040895"
+    }
+    assert_equal expected ,@enigma.encrypt("hello world", "02715", "040895")
   end
 end

@@ -3,16 +3,24 @@ require 'pry'
 require 'date'
 
 class Enigma
-  attr_reader :offsets, :char_set, :ashift, :bshift, :cshift, :dshift, :key
+  attr_reader :offsets, :char_set, :ashift, :bshift, :cshift, :dshift, :key, :date
 
   def initialize
     @char_set = ("a".."z").to_a << " "
+    @date = DateTime.now.strftime("%d%m%y")
     @offsets = make_offsets
     @key = make_key
     @ashift = shift_create
     @bshift = shift_create
     @cshift = shift_create
     @dshift = shift_create
+  end
+
+  def encrypt(encryption, key, date = @date)
+
+
+    encryption(message)
+
   end
 
   def make_offsets
@@ -100,7 +108,7 @@ class Enigma
 
   def encryption(message)
     complete_encrypt = []
-    message_prep.each do |group|
+    message.each do |group|
       if group.length == 4
         complete_encrypt << @ashift[group[0]]
         complete_encrypt << @bshift[group[1]]
