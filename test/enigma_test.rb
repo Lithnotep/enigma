@@ -33,16 +33,16 @@ class EnigmaTest < Minitest::Test
     assert_instance_of Hash, @enigma.dshift
   end
 
-  # def test_key_and_make_key
-  #   assert_equal 4, @enigma.key.length
-  #   assert_equal 4, @enigma.make_key.length
-  # end
+  def test_key_and_make_key
+    assert_equal 5, @enigma.key.length
+  end
+
+  def test_prepare_key
+    assert_equal [11, 11, 11, 11], @enigma.prepare_key("11111")
+  end
 
   def test_key_offset_combine
-    @enigma.stubs(:combine).returns([24, 49, 93, 33], [6, 4, 0, 0])
-    assert_equal 4, @enigma.offset_combine.length
-    assert_instance_of Array, @enigma.offset_combine
-    assert_instance_of Integer, @enigma.offset_combine[1]
+    assert_equal [3, 27, 73, 20], @enigma.offset_combine(@enigma.make_offsets("040895"), @enigma.prepare_key("02715"))
   end
 
   def test_ashift_assign
@@ -85,7 +85,6 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_encrypt
-    skip
     expected = {
     encryption: "keder ohulw",
     key: "02715",
@@ -93,4 +92,5 @@ class EnigmaTest < Minitest::Test
     }
     assert_equal expected ,@enigma.encrypt("hello world", "02715", "040895")
   end
+
 end
