@@ -2,8 +2,6 @@ require './test/test_helper'
 require './lib/enigma'
 require 'date'
 
-
-
 class EnigmaTest < Minitest::Test
 
   def setup
@@ -96,5 +94,4 @@ class EnigmaTest < Minitest::Test
   def test_message_clean_up
     assert_equal "keder ohulw", @enigma.message_clean_up(["k", "e", "d", "e", "r", " ", "o", "h", "u", "l", "w"])
   end
-
 end
