@@ -11,11 +11,10 @@ class EnigmaTest < Minitest::Test
   def test_it_exists
     assert_instance_of Enigma, @enigma
   end
-# 180420
+
   def test_it_has_attributes
-    #@enigma.stubs(:current_date).returns("111111")
+
     expected2 = ("a".."z").to_a << " "
-    # assert_equal 4, @enigma.offsets.length
     assert_equal expected2, @enigma.char_set
     assert_equal DateTime.now.strftime("%d%m%y"), @enigma.date
   end
