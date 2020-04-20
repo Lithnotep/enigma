@@ -20,7 +20,7 @@ class Enigma
     encrypt_hash[:date] = date
     code_shift = offset_combine(make_offsets(date), @key.prepare_key(key))
     @shift.full_shift_assign(code_shift)
-    split_encryption = encryption(message_prep(message))
+    split_encryption = encryption(message_prep(message), :encrypt)
     encrypt_hash[:encryption] = message_clean_up(split_encryption)
     encrypt_hash
   end
@@ -48,14 +48,19 @@ class Enigma
     message_feeder
   end
 
-  def cryption_feeder
+  def cryption_feeder(encrypt_decrypt)
+    if encrypt_decrypt == :encrypt
+    [@shift.ashift, @shift.bshift, @shift.cshift, @shift.dshift]
+    elsif encrypt_decrypt == :decrypt
+    [@shift.ashift.invert, @shift.bshift.invert, @shift.cshift.invert, @shift.dshift.invert]
+    end
   end
 
-  def encryption(message)
+  def encryption(message, encrypt_decrypt)
     complete_encrypt = []
     message.each do |group|
         iter = 0
-        [@shift.ashift, @shift.bshift, @shift.cshift, @shift.dshift].each do |hash|
+        cryption_feeder(encrypt_decrypt).each do |hash|
           complete_encrypt << hash[group[iter]]
           iter += 1
         end

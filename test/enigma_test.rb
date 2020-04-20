@@ -45,9 +45,9 @@ class EnigmaTest < Minitest::Test
 
   def test_encryption
     @enigma.shift.full_shift_assign([1, 1, 1, 1])
-    assert_equal ["i", "f", "m", "m", "p"] , @enigma.encryption([["h", "e", "l", "l"], ["o"]])
-    assert_equal ["i", "f", "m", "m", "p", "p"] , @enigma.encryption([["h", "e", "l", "l"], ["o", "o"]])
-    assert_equal ["i", "f", "m", "m", "p", "a", "x", "p", "s", "m", "e"] , @enigma.encryption([["h", "e", "l", "l"], ["o", " ", "w", "o"], ["r", "l", "d"]])
+    assert_equal ["i", "f", "m", "m", "p"] , @enigma.encryption([["h", "e", "l", "l"], ["o"]], :encrypt)
+    assert_equal ["i", "f", "m", "m", "p", "p"] , @enigma.encryption([["h", "e", "l", "l"], ["o", "o"]], :encrypt)
+    assert_equal ["i", "f", "m", "m", "p", "a", "x", "p", "s", "m", "e"] , @enigma.encryption([["h", "e", "l", "l"], ["o", " ", "w", "o"], ["r", "l", "d"]], :encrypt)
   end
 
   def test_encrypt
@@ -67,6 +67,11 @@ class EnigmaTest < Minitest::Test
     skip
     assert_equal @enigma.shift.ashift.invert, @enigma.encrypt_decrypt_helper(decrypt)
     assert_equal @enigma.shift.ashift, @enigma.encrypt_decrypt_helper(encrypt)
+  end
+
+  def test_cryption_feeder
+    assert_equal [@enigma.shift.ashift, @enigma.shift.bshift, @enigma.shift.cshift, @enigma.shift.dshift], @enigma.cryption_feeder(:encrypt)
+    assert_equal [@enigma.shift.ashift.invert, @enigma.shift.bshift.invert, @enigma.shift.cshift.invert, @enigma.shift.dshift.invert], @enigma.cryption_feeder(:decrypt)
   end
 
   def test_encryption_decrypt
