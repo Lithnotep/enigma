@@ -43,7 +43,7 @@ class EnigmaTest < Minitest::Test
     assert_equal [["H", "e", "l", "l"], ["o", " ", "w", "o"], ["r", "l", "d"]], @enigma.message_prep("Hello world")
   end
 
-  def test_encryption
+  def test_encryption_encrypt
     @enigma.shift.full_shift_assign([1, 1, 1, 1])
     assert_equal ["i", "f", "m", "m", "p"] , @enigma.encryption([["h", "e", "l", "l"], ["o"]], :encrypt)
     assert_equal ["i", "f", "m", "m", "p", "p"] , @enigma.encryption([["h", "e", "l", "l"], ["o", "o"]], :encrypt)
@@ -63,22 +63,16 @@ class EnigmaTest < Minitest::Test
     assert_equal "keder ohulw", @enigma.message_clean_up(["k", "e", "d", "e", "r", " ", "o", "h", "u", "l", "w"])
   end
 
-  def test_encrypt_decrypt_helper
-    skip
-    assert_equal @enigma.shift.ashift.invert, @enigma.encrypt_decrypt_helper(decrypt)
-    assert_equal @enigma.shift.ashift, @enigma.encrypt_decrypt_helper(encrypt)
-  end
-
   def test_cryption_feeder
     assert_equal [@enigma.shift.ashift, @enigma.shift.bshift, @enigma.shift.cshift, @enigma.shift.dshift], @enigma.cryption_feeder(:encrypt)
     assert_equal [@enigma.shift.ashift.invert, @enigma.shift.bshift.invert, @enigma.shift.cshift.invert, @enigma.shift.dshift.invert], @enigma.cryption_feeder(:decrypt)
   end
 
   def test_encryption_decrypt
-    skip
     @enigma.shift.full_shift_assign([1, 1, 1, 1])
-    assert_equal ["h", "e", "l", "l", "o"] , @enigma.encryption([["i", "f", "m", "m"], ["p"]])
-    assert_equal ["h", "e", "l", "l", "o", "o"] , @enigma.encryption([["i", "f", "m", "m"], ["p", "p"]])
-    assert_equal ["i", "f", "m", "m", "p", "a", "x", "p", "s", "m", "e"] , @enigma.encryption([["i", "f", "m", "m"], ["p", "a", "x", "p"], ["s", "m", "e"]])
+    assert_equal ["h", "e", "l", "l", "o"] , @enigma.encryption([["i", "f", "m", "m"], ["p"]], :decrypt)
+    assert_equal ["h", "e", "l", "l", "o", "o"] , @enigma.encryption([["i", "f", "m", "m"], ["p", "p"]], :decrypt)
+    assert_equal ["h", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d"] , @enigma.encryption([["i", "f", "m", "m"], ["p", "a", "x", "p"], ["s", "m", "e"]], :decrypt)
   end
+
 end
