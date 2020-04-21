@@ -21,7 +21,7 @@ class Shift
   end
 
   def symbol_assign
-    symbols = ["!", "@", "#", "$", "%", "^", "&", "*"]
+    symbols = ["!", "@", "#", "$", "%", "^", "&", "*", "."]
     symbols.each do |symbol|
       @ashift[symbol] = symbol
       @bshift[symbol] = symbol
