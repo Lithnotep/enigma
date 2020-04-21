@@ -51,7 +51,7 @@ class Enigma
 
   def message_prep(message)
     message_feeder = []
-    message_array = message.split(//)
+    message_array = message.downcase.split(//)
     message_array.each_slice(4) do |char|
       message_feeder << char
     end
