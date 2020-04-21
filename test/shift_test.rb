@@ -43,4 +43,12 @@ class ShiftTest < Minitest::Test
     assert_equal "d", @shift.cshift["a"]
     assert_equal "e", @shift.dshift["a"]
   end
+
+  def test_symbol_assign
+    @shift.symbol_assign
+    assert_equal "&", @shift.ashift["&"]
+    assert_equal "!", @shift.ashift["!"]
+    assert_equal "@", @shift.ashift["@"]
+    assert_equal "$", @shift.ashift["$"]
+  end
 end
