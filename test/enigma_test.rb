@@ -43,11 +43,11 @@ class EnigmaTest < Minitest::Test
     assert_equal [["H", "e", "l", "l"], ["o", " ", "w", "o"], ["r", "l", "d"]], @enigma.message_prep("Hello world")
   end
 
-  def test_encryption
+  def test_cryption_encrypt
     @enigma.shift.full_shift_assign([1, 1, 1, 1])
-    assert_equal ["i", "f", "m", "m", "p"] , @enigma.encryption([["h", "e", "l", "l"], ["o"]])
-    assert_equal ["i", "f", "m", "m", "p", "p"] , @enigma.encryption([["h", "e", "l", "l"], ["o", "o"]])
-    assert_equal ["i", "f", "m", "m", "p", "a", "x", "p", "s", "m", "e"] , @enigma.encryption([["h", "e", "l", "l"], ["o", " ", "w", "o"], ["r", "l", "d"]])
+    assert_equal ["i", "f", "m", "m", "p"] , @enigma.cryption([["h", "e", "l", "l"], ["o"]], :encrypt)
+    assert_equal ["i", "f", "m", "m", "p", "p"] , @enigma.cryption([["h", "e", "l", "l"], ["o", "o"]], :encrypt)
+    assert_equal ["i", "f", "m", "m", "p", "a", "x", "p", "s", "m", "e"] , @enigma.cryption([["h", "e", "l", "l"], ["o", " ", "w", "o"], ["r", "l", "d"]], :encrypt)
   end
 
   def test_encrypt
@@ -62,4 +62,51 @@ class EnigmaTest < Minitest::Test
   def test_message_clean_up
     assert_equal "keder ohulw", @enigma.message_clean_up(["k", "e", "d", "e", "r", " ", "o", "h", "u", "l", "w"])
   end
+
+  def test_cryption_feeder
+    assert_equal [@enigma.shift.ashift, @enigma.shift.bshift, @enigma.shift.cshift, @enigma.shift.dshift], @enigma.cryption_feeder(:encrypt)
+    assert_equal [@enigma.shift.ashift.invert, @enigma.shift.bshift.invert, @enigma.shift.cshift.invert, @enigma.shift.dshift.invert], @enigma.cryption_feeder(:decrypt)
+  end
+
+  def test_cryption_decrypt
+    @enigma.shift.full_shift_assign([1, 1, 1, 1])
+    assert_equal ["h", "e", "l", "l", "o"] , @enigma.cryption([["i", "f", "m", "m"], ["p"]], :decrypt)
+    assert_equal ["h", "e", "l", "l", "o", "o"] , @enigma.cryption([["i", "f", "m", "m"], ["p", "p"]], :decrypt)
+    assert_equal ["h", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d"] , @enigma.cryption([["i", "f", "m", "m"], ["p", "a", "x", "p"], ["s", "m", "e"]], :decrypt)
+  end
+
+  def test_can_decrypt
+      expected = {
+      decryption: "hello world",
+      key: "02715",
+      date: "040895"
+      }
+      assert_equal expected ,@enigma.decrypt("keder ohulw", "02715", "040895")
+  end
+
+  def test_can_encrypt_without_date
+    expected = {
+    encryption: "pib wdmczpu",
+    key: "02715",
+    date: "200420"
+    }
+    assert_equal expected , @enigma.encrypt("hello world", "02715")
+  end
+
+  def test_can_decrypt_without_date
+    encrypted = @enigma.encrypt("hello world", "02715")
+    expected = {
+    decryption: "hello world",
+    key: "02715",
+    date: "200420"
+    }
+    assert_equal expected, @enigma.decrypt(encrypted[:encryption], "02715")
+  end
+
+  def test_can_encrypt_without_date_and_key
+    encrypted = @enigma.encrypt("hello world")
+    decrypted = @enigma.decrypt(encrypted[:encryption])
+    assert_equal "hello world" , decrypted[:decryption]
+  end
+
 end

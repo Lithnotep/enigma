@@ -1,6 +1,5 @@
 require './lib/key'
 require './lib/shift'
-require 'matrix'
 require 'pry'
 require 'date'
 
@@ -14,14 +13,25 @@ class Enigma
     @shift = Shift.new
   end
 
-  def encrypt(message, key, date = @date)
+  def encrypt(message, key = @key.current_key, date = @date)
     encrypt_hash = {}
     encrypt_hash[:key] = key
     encrypt_hash[:date] = date
     code_shift = offset_combine(make_offsets(date), @key.prepare_key(key))
     @shift.full_shift_assign(code_shift)
-    split_encryption = encryption(message_prep(message))
-    encrypt_hash[:encryption] = message_clean_up(split_encryption)
+    split_cryption = cryption(message_prep(message), :encrypt)
+    encrypt_hash[:encryption] = message_clean_up(split_cryption)
+    encrypt_hash
+  end
+
+  def decrypt(message, key = key = @key.current_key, date = @date)
+    encrypt_hash = {}
+    encrypt_hash[:key] = key
+    encrypt_hash[:date] = date
+    code_shift = offset_combine(make_offsets(date), @key.prepare_key(key))
+    @shift.full_shift_assign(code_shift)
+    split_cryption = cryption(message_prep(message), :decrypt)
+    encrypt_hash[:decryption] = message_clean_up(split_cryption)
     encrypt_hash
   end
 
@@ -48,29 +58,24 @@ class Enigma
     message_feeder
   end
 
-  def encryption(message)
+  def cryption_feeder(encrypt_decrypt)
+    if encrypt_decrypt == :encrypt
+    [@shift.ashift, @shift.bshift, @shift.cshift, @shift.dshift]
+    elsif encrypt_decrypt == :decrypt
+    [@shift.ashift.invert, @shift.bshift.invert, @shift.cshift.invert, @shift.dshift.invert]
+    end
+  end
+
+  def cryption(message, encrypt_decrypt)
     complete_encrypt = []
     message.each do |group|
-      if group.length == 4
-        complete_encrypt << @shift.ashift[group[0]]
-        complete_encrypt << @shift.bshift[group[1]]
-        complete_encrypt << @shift.cshift[group[2]]
-        complete_encrypt << @shift.dshift[group[3]]
-      end
-      if group.length == 3
-        complete_encrypt << @shift.ashift[group[0]]
-        complete_encrypt << @shift.bshift[group[1]]
-        complete_encrypt << @shift.cshift[group[2]]
-      end
-      if group.length == 2
-        complete_encrypt << @shift.ashift[group[0]]
-        complete_encrypt << @shift.bshift[group[1]]
-      end
-      if group.length == 1
-        complete_encrypt << @shift.ashift[group[0]]
-      end
+        iter = 0
+        cryption_feeder(encrypt_decrypt).each do |hash|
+          complete_encrypt << hash[group[iter]]
+          iter += 1
+        end
     end
-    complete_encrypt
+    complete_encrypt.compact
   end
 
   def message_clean_up(message)
