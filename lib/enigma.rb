@@ -14,7 +14,7 @@ class Enigma
     @shift = Shift.new
   end
 
-  def encrypt(message, key, date = @date)
+  def encrypt(message, key = @key.current_key, date = @date)
     encrypt_hash = {}
     encrypt_hash[:key] = key
     encrypt_hash[:date] = date
@@ -25,7 +25,7 @@ class Enigma
     encrypt_hash
   end
 
-  def decrypt(message, key, date = @date)
+  def decrypt(message, key = key = @key.current_key, date = @date)
     encrypt_hash = {}
     encrypt_hash[:key] = key
     encrypt_hash[:date] = date
