@@ -24,5 +24,4 @@ class Key
     key_array << key_chars.slice(3..4).join.to_i
     key_array
   end
-
 end

@@ -108,5 +108,4 @@ class EnigmaTest < Minitest::Test
     decrypted = @enigma.decrypt(encrypted[:encryption])
     assert_equal "hello world" , decrypted[:decryption]
   end
-
 end
