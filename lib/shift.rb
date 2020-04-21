@@ -20,9 +20,20 @@ class Shift
     char_hash
   end
 
+  def symbol_assign
+    symbols = ["!", "@", "#", "$", "%", "^", "&", "*"]
+    symbols.each do |symbol|
+      @ashift[symbol] = symbol
+      @bshift[symbol] = symbol
+      @cshift[symbol] = symbol
+      @dshift[symbol] = symbol
+    end
+  end
+
   def shift_assign(code_shift, shift)
     shift_code = nil
     current_shift = nil
+    symbol_assign
     if shift == :a
       shift_code = code_shift[0]
       current_shift = @ashift

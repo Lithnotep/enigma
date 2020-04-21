@@ -40,7 +40,7 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_message_prep
-    assert_equal [["H", "e", "l", "l"], ["o", " ", "w", "o"], ["r", "l", "d"]], @enigma.message_prep("Hello world")
+    assert_equal [["h", "e", "l", "l"], ["o", " ", "w", "o"], ["r", "l", "d"]], @enigma.message_prep("Hello world")
   end
 
   def test_cryption_encrypt
@@ -57,6 +57,15 @@ class EnigmaTest < Minitest::Test
     date: "040895"
     }
     assert_equal expected ,@enigma.encrypt("hello world", "02715", "040895")
+  end
+
+  def test_encrypt_with_symbols_and_caps
+    expected = {
+    encryption: "keder ohulw!!",
+    key: "02715",
+    date: "040895"
+    }
+    assert_equal expected ,@enigma.encrypt("Hello world!!", "02715", "040895")
   end
 
   def test_message_clean_up
@@ -82,6 +91,15 @@ class EnigmaTest < Minitest::Test
       date: "040895"
       }
       assert_equal expected ,@enigma.decrypt("keder ohulw", "02715", "040895")
+  end
+
+  def test_can_decrypt_with_symbols_and_caps
+      expected = {
+      decryption: "hello world!!",
+      key: "02715",
+      date: "040895"
+      }
+      assert_equal expected ,@enigma.decrypt("Keder ohulw!!", "02715", "040895")
   end
 
   def test_can_encrypt_without_date
