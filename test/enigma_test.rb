@@ -103,4 +103,10 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, @enigma.decrypt(encrypted[:encryption], "02715")
   end
 
+  def test_can_encrypt_without_date_and_key
+    encrypted = @enigma.encrypt("hello world")
+    decrypted = @enigma.decrypt(encrypted[:encryption])
+    assert_equal "hello world" , decrypted[:decryption]
+  end
+
 end
