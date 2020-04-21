@@ -20,8 +20,19 @@ class Enigma
     encrypt_hash[:date] = date
     code_shift = offset_combine(make_offsets(date), @key.prepare_key(key))
     @shift.full_shift_assign(code_shift)
-    split_encryption = encryption(message_prep(message), :encrypt)
-    encrypt_hash[:encryption] = message_clean_up(split_encryption)
+    split_cryption = cryption(message_prep(message), :encrypt)
+    encrypt_hash[:encryption] = message_clean_up(split_cryption)
+    encrypt_hash
+  end
+
+  def decrypt(message, key, date = @date)
+    encrypt_hash = {}
+    encrypt_hash[:key] = key
+    encrypt_hash[:date] = date
+    code_shift = offset_combine(make_offsets(date), @key.prepare_key(key))
+    @shift.full_shift_assign(code_shift)
+    split_cryption = cryption(message_prep(message), :decrypt)
+    encrypt_hash[:decryption] = message_clean_up(split_cryption)
     encrypt_hash
   end
 
@@ -56,7 +67,7 @@ class Enigma
     end
   end
 
-  def encryption(message, encrypt_decrypt)
+  def cryption(message, encrypt_decrypt)
     complete_encrypt = []
     message.each do |group|
         iter = 0

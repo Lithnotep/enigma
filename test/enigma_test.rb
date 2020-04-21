@@ -43,11 +43,11 @@ class EnigmaTest < Minitest::Test
     assert_equal [["H", "e", "l", "l"], ["o", " ", "w", "o"], ["r", "l", "d"]], @enigma.message_prep("Hello world")
   end
 
-  def test_encryption_encrypt
+  def test_cryption_encrypt
     @enigma.shift.full_shift_assign([1, 1, 1, 1])
-    assert_equal ["i", "f", "m", "m", "p"] , @enigma.encryption([["h", "e", "l", "l"], ["o"]], :encrypt)
-    assert_equal ["i", "f", "m", "m", "p", "p"] , @enigma.encryption([["h", "e", "l", "l"], ["o", "o"]], :encrypt)
-    assert_equal ["i", "f", "m", "m", "p", "a", "x", "p", "s", "m", "e"] , @enigma.encryption([["h", "e", "l", "l"], ["o", " ", "w", "o"], ["r", "l", "d"]], :encrypt)
+    assert_equal ["i", "f", "m", "m", "p"] , @enigma.cryption([["h", "e", "l", "l"], ["o"]], :encrypt)
+    assert_equal ["i", "f", "m", "m", "p", "p"] , @enigma.cryption([["h", "e", "l", "l"], ["o", "o"]], :encrypt)
+    assert_equal ["i", "f", "m", "m", "p", "a", "x", "p", "s", "m", "e"] , @enigma.cryption([["h", "e", "l", "l"], ["o", " ", "w", "o"], ["r", "l", "d"]], :encrypt)
   end
 
   def test_encrypt
@@ -68,11 +68,19 @@ class EnigmaTest < Minitest::Test
     assert_equal [@enigma.shift.ashift.invert, @enigma.shift.bshift.invert, @enigma.shift.cshift.invert, @enigma.shift.dshift.invert], @enigma.cryption_feeder(:decrypt)
   end
 
-  def test_encryption_decrypt
+  def test_cryption_decrypt
     @enigma.shift.full_shift_assign([1, 1, 1, 1])
-    assert_equal ["h", "e", "l", "l", "o"] , @enigma.encryption([["i", "f", "m", "m"], ["p"]], :decrypt)
-    assert_equal ["h", "e", "l", "l", "o", "o"] , @enigma.encryption([["i", "f", "m", "m"], ["p", "p"]], :decrypt)
-    assert_equal ["h", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d"] , @enigma.encryption([["i", "f", "m", "m"], ["p", "a", "x", "p"], ["s", "m", "e"]], :decrypt)
+    assert_equal ["h", "e", "l", "l", "o"] , @enigma.cryption([["i", "f", "m", "m"], ["p"]], :decrypt)
+    assert_equal ["h", "e", "l", "l", "o", "o"] , @enigma.cryption([["i", "f", "m", "m"], ["p", "p"]], :decrypt)
+    assert_equal ["h", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d"] , @enigma.cryption([["i", "f", "m", "m"], ["p", "a", "x", "p"], ["s", "m", "e"]], :decrypt)
   end
 
+  def test_can_decrypt
+      expected = {
+      decryption: "hello world",
+      key: "02715",
+      date: "040895"
+      }
+      assert_equal expected ,@enigma.decrypt("keder ohulw", "02715", "040895")
+  end
 end
