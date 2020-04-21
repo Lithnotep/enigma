@@ -1,6 +1,5 @@
 require './lib/key'
 require './lib/shift'
-require 'matrix'
 require 'pry'
 require 'date'
 
