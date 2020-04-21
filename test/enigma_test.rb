@@ -59,6 +59,15 @@ class EnigmaTest < Minitest::Test
     assert_equal expected ,@enigma.encrypt("hello world", "02715", "040895")
   end
 
+  def test_encrypt_with_symbols
+    expected = {
+    encryption: "keder ohulw!!",
+    key: "02715",
+    date: "040895"
+    }
+    assert_equal expected ,@enigma.encrypt("hello world!!", "02715", "040895")
+  end
+
   def test_message_clean_up
     assert_equal "keder ohulw", @enigma.message_clean_up(["k", "e", "d", "e", "r", " ", "o", "h", "u", "l", "w"])
   end
@@ -82,6 +91,15 @@ class EnigmaTest < Minitest::Test
       date: "040895"
       }
       assert_equal expected ,@enigma.decrypt("keder ohulw", "02715", "040895")
+  end
+
+  def test_can_decrypt_with_symbols
+      expected = {
+      decryption: "hello world!!",
+      key: "02715",
+      date: "040895"
+      }
+      assert_equal expected ,@enigma.decrypt("keder ohulw!!", "02715", "040895")
   end
 
   def test_can_encrypt_without_date

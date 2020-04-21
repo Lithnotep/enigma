@@ -33,6 +33,7 @@ class Shift
   def shift_assign(code_shift, shift)
     shift_code = nil
     current_shift = nil
+    symbol_assign
     if shift == :a
       shift_code = code_shift[0]
       current_shift = @ashift
